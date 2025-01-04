@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game</title>
+    <style>
+        * {
+            background-color:black;
+            padding: 0px;
+            margin: 0px;
+        }
+        h1 {
+            color: aliceblue;
+            text-align: center;
+            font-size: 3rem;
+            margin: 3rem;
+        }
+        .choice {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+
+        }
+        img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .choices {
+            display: flex;
+            justify-content: center;
+            margin-top: 3rem;
+            gap: 5rem;
+
+
+        }
+        .choices :hover {
+            opacity: 70%;
+            border: solid white 1px;
+        }
+        
+        .score-board {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            margin-top: 3rem;
+            /* margin-left: 280px; */
+            text-align: center;
+            color: aliceblue;
+
+            gap: 5rem;
+        }
+       
+        #user-score,
+        #comp-score {
+            margin-top: 1rem;
+        font-size: 4rem;
+        
+        }
+
+        .msg-container {
+            margin-top: 5rem;
+            }
+
+        .msg {
+            background-color:aliceblue;
+            color: #fff;
+            font-size: 2rem;
+            display: flex;
+            justify-content: center;
+            padding: 1rem;
+            border-radius: 1rem;
+            }
+                  
+
+    </style>
+</head>
+<body>
+    <h1>ROCK PAPER SCISSORS</h1>
+    <div class="choices">
+        <div class="choice" id="rock">
+            <img src="rock-paper-scissors\images\paper.png"/>
+        </div>
+        <div class="choice" id="paper">
+            <img src="rock-paper-scissors\images\rock.png"/>
+
+        </div>
+        <div class="choice"id="scissors">
+            <img src="rock-paper-scissors\images\scissors.png"/>
+
+        </div>
+    </div>
+    <div class="score-board">
+        <div class="score">
+            <p>YOU</p>
+            <p id="user-score">0</p>
+        </div>
+        <div class="score">
+            <p>COMP</p>
+            <p id="comp-score">0</p>
+        </div>   
+    </div>
+    <div class="msg-container" >
+        <p class="msg" style="color: black">Play the game</p>
+    </div>
+    <script>
+        let userScore = 0;
+        let compScore = 0;
+
+        const choices = document.querySelectorAll(".choice") ;
+        const msg = document.querySelector(".msg");
+        const userscore = document.querySelector("#user-score")
+        const compscore = document.querySelector("#comp-score")
+
+
+        // gen comp choice
+        const getcompChoice = () => {
+            const options = ["rock","paper","scissors"];
+            const random = Math.floor(Math.random() * 3);
+            return options[random];
+
+        };
+        const drawGame = () =>{
+            console.log("game was draw");
+            msg.innerText = ("DRAW");
+            msg.style.backgroundColor = "aliceblue";
+
+
+        };
+        
+        const showWinner = (userWin , userChoice , compChoice) =>{
+            if (userWin) {
+                console.log("You Win");
+                msg.innerText = `YOU WIN!, ${userChoice} beats ${compChoice} `;
+                msg.style.backgroundColor = "green";
+                userScore++;
+                userscore.innerText = userScore ;
+
+
+            }
+            else {
+                msg.innerText = `YOU LOSE! ${compChoice} beats your ${userChoice}`;
+                console.log("You lose");
+                msg.style.backgroundColor = "red";
+                compScore++;
+                compscore.innerText = compScore;
+                
+
+            }
+        };
+
+        const playGame = (userChoice) => {
+            console.log( "userChoice " , userChoice);
+            const compChoice = getcompChoice();
+            console.log( "compChoice " , compChoice);
+
+       
+        if(userChoice === compChoice) {
+            console.log("its draw");
+            drawGame();
+
+        }
+        else{
+            let userWin = true; 
+            if(userChoice === "rock"){
+                // sci,paper
+                 userWin = compChoice === "paper" ? false :true;
+            }
+            else if(userChoice === "paper"){
+                // rock , sci
+                 userWin = compChoice === "scissors" ? false :true;
+            }
+            else {
+                // paper ,rock
+                userWin = compChoice === "rock" ? false:true;
+            }
+            showWinner(userWin , userChoice , compChoice);
+        }
+    };
+
+
+
+        choices.forEach((choice) => {
+            choice.addEventListener("click", () => {
+                // console.log("btn is clicked");
+                const userChoice = choice.getAttribute("id");
+                playGame(userChoice);
+            });
+        });
+    </script>
+</body>
+</html>
+
+<!--     
+        } -->
+
+
+        <!-- 
+        1. btn clicking 
+        2. separate btn rock , paper  scissors naming
+        3.  random num gene
+        4.comp generate
+        5.conditions-->
